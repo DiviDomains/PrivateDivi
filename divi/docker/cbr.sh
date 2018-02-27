@@ -5,6 +5,6 @@ cd /shared/divi/
 ./configure --disable-zerocoin --without-gui --enable-debug
 make
 sudo make install
-mkdir .divx
+mkdir /home/ubuntu/.divx
 cp /home/ubuntu/divx.conf /home/ubuntu/.divx/divx.conf
 divxd -debug
