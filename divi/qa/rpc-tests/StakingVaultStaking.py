@@ -4,7 +4,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #
-# Test pow-to-pos
+# Test StakingVault's ability to successfully stake
 #
 
 from test_framework import BitcoinTestFramework
