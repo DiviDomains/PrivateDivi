@@ -1295,7 +1295,7 @@ class GTEST_API_ UnitTest {
   const TestCase* GetTestCase(int i) const;
 
   // Returns the TestResult containing information on test failures and
-  // properties logged outside of individual test cases.
+  // properties logged outside of inprivatedividual test cases.
   const TestResult& ad_hoc_test_result() const;
 
   // Returns the list of event listeners that can be used to track events

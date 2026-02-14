@@ -857,7 +857,7 @@ bool TryLockDataDirectory(const std::string& datadir)
 
     // Wait maximum 10 seconds if an old wallet is still running. Avoids lockup during restart
     if (!lock.timed_lock(boost::get_system_time() + boost::posix_time::seconds(10)))
-        return InitError(strprintf(translate("Cannot obtain a lock on data directory %s. DIVI Core is probably already running."), datadir));
+        return InitError(strprintf(translate("Cannot obtain a lock on data directory %s. PrivateDivi Core is probably already running."), datadir));
     return true;
 }
 
@@ -907,7 +907,7 @@ void ClearFoldersForResync()
     boost::filesystem::path sporksDir = GetDataDir() / "sporks";
 
     LogPrintf("Deleting blockchain folders blocks, chainstate and sporks\n");
-    // We delete in 4 individual steps in case one of the folder is missing already
+    // We delete in 4 inprivatedividual steps in case one of the folder is missing already
     try {
         if (boost::filesystem::exists(blocksDir)){
             boost::filesystem::remove_all(blocksDir);
@@ -1163,12 +1163,12 @@ LoadWalletResult ParseDbErrorsFromLoadingWallet(DBErrors dbError, std::ostringst
         }
         else if (dbError == DB_TOO_NEW)
         {
-            strErrors << std::string("Loading newer wallet.dat: wallet may require newer version of DIVI Core to run properly");
+            strErrors << std::string("Loading newer wallet.dat: wallet may require newer version of PrivateDivi Core to run properly");
             warningDetected = true;
         }
         else if (dbError == DB_NEED_REWRITE || dbError == DB_REWRITTEN)
         {
-            strErrors << std::string("Wallet needed to be rewritten: restart DIVI Core to complete");
+            strErrors << std::string("Wallet needed to be rewritten: restart PrivateDivi Core to complete");
         }
         else
         {
@@ -1454,7 +1454,7 @@ bool InitializeDivi(boost::thread_group& threadGroup)
     // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log
     // Sanity check
     if (!VerifyCriticalDependenciesAreAvailable())
-        return InitError(translate("Initialization sanity check failed. DIVI Core is shutting down."));
+        return InitError(translate("Initialization sanity check failed. PrivateDivi Core is shutting down."));
 
     std::string strDataDir = GetDataDir().string();
     if(!TryLockDataDirectory(strDataDir))

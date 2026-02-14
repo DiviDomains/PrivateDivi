@@ -51,7 +51,7 @@ static bool AppInitRawTx(int argc, char* argv[])
 
     if (argc < 2 ||settings.ParameterIsSet("-?") ||settings.ParameterIsSet("-help")) {
         // First part of help message is specific to this utility
-        std::string strUsage = translate("Divi Core divi-tx utility version") + " " + FormatFullVersion() + "\n\n" +
+        std::string strUsage = translate("PrivateDivi Core divi-tx utility version") + " " + FormatFullVersion() + "\n\n" +
                                translate("Usage:") + "\n" +
                                "  divi-tx [options] <hex-tx> [commands]  " + translate("Update hex-encoded divi transaction") + "\n" +
                                "  divi-tx [options] -create [commands]   " + translate("Create hex-encoded divi transaction") + "\n" +

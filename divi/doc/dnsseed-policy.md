@@ -1,7 +1,7 @@
 Expectations for DNS Seed operators
 ====================================
 
-DIVI Core attempts to minimize the level of trust in DNS seeds,
+PrivateDivi Core attempts to minimize the level of trust in DNS seeds,
 but DNS seeds still pose a small amount of risk for the network.
 As such, DNS seeds must be run by entities which have some minimum
 level of trust within the DIVI community.
@@ -46,7 +46,7 @@ related to the DNS seed operation.
 If these expectations cannot be satisfied the operator should
 discontinue providing services and contact the active DIVI
 Core development team as well as posting on the
-[DIVI Forum](https://forum.diviproject.org).
+[DIVI Forum](https://forum.divi.domains).
 
 Behavior outside of these expectations may be reasonable in some
 situations but should be discussed in public in advance.

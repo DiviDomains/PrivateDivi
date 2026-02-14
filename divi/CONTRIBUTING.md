@@ -1,7 +1,7 @@
-Contributing to DIVI Core
+Contributing to PrivateDivi Core
 ============================
 
-The DIVI Core project operates an open contributor model where anyone is
+The PrivateDivi Core project operates an open contributor model where anyone is
 welcome to contribute towards development in the form of peer review, testing
 and patches. This document explains the practical process and guidelines for
 contributing.
@@ -157,10 +157,10 @@ where possible keep them short, un-complex and easy to verify.
 "Decision Making" Process
 -------------------------
 
-The following applies to code changes to the DIVI Core project, and is not to be
+The following applies to code changes to the PrivateDivi Core project, and is not to be
 confused with overall DIVI Network Protocol consensus changes.
 
-Whether a pull request is merged into DIVI Core rests with the project merge
+Whether a pull request is merged into PrivateDivi Core rests with the project merge
 maintainers and ultimately the project lead.
 
 Maintainers will take into consideration if a patch is in line with the general
@@ -254,7 +254,7 @@ about:
 Release Policy
 --------------
 
-The project leader is the release manager for each DIVI Core release.
+The project leader is the release manager for each PrivateDivi Core release.
 
 Copyright
 ---------

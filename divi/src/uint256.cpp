@@ -324,7 +324,7 @@ uint32_t uint256::GetCompact(bool fNegative) const
         nCompact = bn.GetLow64();
     }
     // The 0x00800000 bit denotes the sign.
-    // Thus, if it is already set, divide the mantissa by 256 and increase the exponent.
+    // Thus, if it is already set, privatedivide the mantissa by 256 and increase the exponent.
     if (nCompact & 0x00800000) {
         nCompact >>= 8;
         nSize++;

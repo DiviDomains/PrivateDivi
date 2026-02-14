@@ -106,13 +106,12 @@ namespace
 // + Contains no strange transactions
 const MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
-        (0, uint256("0x00000e258596876664989374c7ee36445cf5f4f80889af415cc32478214394ea"))
-        (100, uint256("0x000000275b2b4a8af2c93ebdfd36ef8dd8c8ec710072bcc388ecbf5d0c8d3f9d"));
+        (0, uint256("0x00000e258596876664989374c7ee36445cf5f4f80889af415cc32478214394ea"));
 
 const CCheckpointData data = {
     &mapCheckpoints,
-    1538069980, // * UNIX timestamp of last checkpoint block
-    100,    // * total number of transactions between genesis and last checkpoint
+    1537971708, // * UNIX timestamp of last checkpoint block (genesis)
+    0,    // * total number of transactions between genesis and last checkpoint
     //   (the tx=... number in the SetBestChain debug.log lines)
     2000        // * estimated number of transactions per day after checkpoint
 };
@@ -167,14 +166,14 @@ public:
         * a large 4-byte int at any alignment.
         */
 
-        pchMessageStart[0] = 0xdf;
-        pchMessageStart[1] = 0xa0;
-        pchMessageStart[2] = 0x8d;
-        pchMessageStart[3] = 0x8f;
+        pchMessageStart[0] = 0x70;
+        pchMessageStart[1] = 0xd1;
+        pchMessageStart[2] = 0x76;
+        pchMessageStart[3] = 0x11;
         premineAmt = 617222416 * COIN;
 
         vAlertPubKey = ParseHex("0231c07d17c2d69facd84908434dc402b5a9b9e25e5062d1e65163acc7afd0e3ef");
-        nDefaultPort = 51472;
+        nDefaultPort = 52472;
         bnProofOfWorkLimit = ~uint256(0) >> 20;			// DIVI starting difficulty is 1 / 2^12
         nSubsidyHalvingInterval = 60 * 24 * 365;
         nMaxReorganizationDepth = 100;
@@ -205,7 +204,7 @@ public:
         *     CTxOut(nValue=50.00000000, scriptPubKey=0xA9037BAC7050C479B121CF)
         *   vMerkleTree: e0028e
         */
-        const char* pszTimestamp = "September 26, 2018 - US-Iran: Trump set to chair key UN Security Council session";
+        const char* pszTimestamp = "February 2026 - PrivateDivi Network Genesis - divi.domains";
         CMutableTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -221,16 +220,14 @@ public:
         genesis.nNonce = 749845;
         genesis.payee = txNew.vout[0].scriptPubKey;
 
-        nExtCoinType = 301;
+        nExtCoinType = 801;
 
         hashGenesisBlock = genesis.GetHash();
         assert(hashGenesisBlock == uint256("0x00000e258596876664989374c7ee36445cf5f4f80889af415cc32478214394ea"));
         assert(genesis.hashMerkleRoot == uint256("0xec803cc6b5e68728ec0117cb1154b6d2893152f89d61319647db106908888bd6"));
 
-        vSeeds.push_back(CDNSSeedData("autoseeds.diviseed.diviproject.org", "autoseeds.diviseed.diviproject.org"));     // Primary DNS Seeder from Fuzzbawls
-        vSeeds.push_back(CDNSSeedData("178.62.195.16", "178.62.195.16"));
-        vSeeds.push_back(CDNSSeedData("178.62.221.33", "178.62.221.33"));
-        vSeeds.push_back(CDNSSeedData("178.128.251.20", "178.128.251.20"));
+        vSeeds.push_back(CDNSSeedData("seeds.divi.domains", "seeds.divi.domains"));
+        vSeeds.push_back(CDNSSeedData("15.204.243.46", "15.204.243.46"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 30);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 13);
@@ -312,7 +309,7 @@ public:
         *     CTxOut(nValue=50.00000000, scriptPubKey=0xA9037BAC7050C479B121CF)
         *   vMerkleTree: e0028e
         */
-        const char* pszTimestamp = "March 2, 2018 - East And West, Both Coasts Brace For Major Winter Storms";
+        const char* pszTimestamp = "February 2026 - PrivateDivi Network Genesis - divi.domains";
         CMutableTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -383,14 +380,14 @@ public:
         networkID = CBaseChainParams::TESTNET;
         strNetworkID = "test";
 
-        pchMessageStart[0] = 0xdf;
-        pchMessageStart[1] = 0xa0;
-        pchMessageStart[2] = 0x8d;
-        pchMessageStart[3] = 0x78;
+        pchMessageStart[0] = 0x70;
+        pchMessageStart[1] = 0xd1;
+        pchMessageStart[2] = 0x76;
+        pchMessageStart[3] = 0x12;
         premineAmt = 617222416 * COIN;
 
         vAlertPubKey = ParseHex("046e70d194b1b6b63b9c5431ea83c7b17d0db8930408b1e7937e41759a799e8fcd22d99ffc0c880094bb07a852a9020f810068417e65d19def8ffbdfa90727b637");
-        nDefaultPort = 51474;
+        nDefaultPort = 52474;
         bnProofOfWorkLimit = ~uint256(0) >> 20; // DIVI starting difficulty is 1 / 2^12
         nSubsidyHalvingInterval = 1000;
         nMaxReorganizationDepth = 100;
@@ -421,7 +418,8 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("autoseeds.tiviseed.diviproject.org", "autoseeds.tiviseed.diviproject.org"));
+        vSeeds.push_back(CDNSSeedData("testseeds.divi.domains", "testseeds.divi.domains"));
+        vSeeds.push_back(CDNSSeedData("15.204.243.46", "15.204.243.46"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 139); // Testnet divi addresses start with 'x' or 'y'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 19);  // Testnet divi script addresses start with '8' or '9'
@@ -461,10 +459,10 @@ public:
     {
         networkID = CBaseChainParams::REGTEST;
         strNetworkID = "regtest";
-        pchMessageStart[0] = 0xa1;
-        pchMessageStart[1] = 0xcf;
-        pchMessageStart[2] = 0x7e;
-        pchMessageStart[3] = 0xac;
+        pchMessageStart[0] = 0x70;
+        pchMessageStart[1] = 0xd1;
+        pchMessageStart[2] = 0x76;
+        pchMessageStart[3] = 0x13;
 
         /* The premine on mainnet needs no tests, as it is "tested" by
            syncing on mainnet anyway.  On regtest, it is easiest to not
@@ -502,7 +500,7 @@ public:
         nExtCoinType = 1;
 
         hashGenesisBlock = genesis.GetHash();
-        nDefaultPort = 51476;
+        nDefaultPort = 52476;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
         assert(hashGenesisBlock == uint256("0x0000000b3f9980dcf71f5f52d69e30d3b02f807e0a77b91b6091701e4ae51a6f"));

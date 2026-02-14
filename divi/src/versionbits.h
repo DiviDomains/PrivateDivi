@@ -1,7 +1,7 @@
 // Copyright (c) 2016-2019 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-// Copyright (c) 2020 The Divi Core developers 
+// Copyright (c) 2020 The PrivateDivi Core developers 
 #ifndef VERSIONBITS_H
 #define VERSIONBITS_H
 

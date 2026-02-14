@@ -301,7 +301,7 @@ public:
 
 };
 
-/** Reader / iterator for the individual chunks in an append-only file.
+/** Reader / iterator for the inprivatedividual chunks in an append-only file.
  *  In contrast to FlatDataFile::Reader, this reader automatically retrieves
  *  the size of each chunk before reading the raw chunk, and also has a
  *  simplified interface with respect to error reporting.  */

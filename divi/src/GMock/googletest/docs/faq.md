@@ -621,7 +621,7 @@ The new NPTL thread library doesn't suffer from this problem, as it doesn't
 create a manager thread. However, if you don't control which machine your test
 runs on, you shouldn't depend on this.
 
-## Why does googletest require the entire test case, instead of individual tests, to be named *DeathTest when it uses ASSERT_DEATH?
+## Why does googletest require the entire test case, instead of inprivatedividual tests, to be named *DeathTest when it uses ASSERT_DEATH?
 
 googletest does not interleave tests from different test cases. That is, it runs
 all tests in one test case first, and then runs all tests in the next test case,

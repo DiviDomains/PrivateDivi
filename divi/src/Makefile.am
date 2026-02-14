@@ -86,11 +86,11 @@ bin_PROGRAMS =
 TESTS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += divid
+  bin_PROGRAMS += privatedivid
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += divi-cli divi-tx
+  bin_PROGRAMS += privatedivi-cli privatedivi-tx
 endif
 
 .PHONY: FORCE
@@ -429,7 +429,7 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 libbitcoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between divid and divi-qt
+# server: shared between privatedivid and privatedivi-qt
 libbitcoin_server_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libbitcoin_server_a_SOURCES = \
   addrman.cpp \
@@ -569,7 +569,7 @@ libbitcoin_zmq_a_SOURCES = \
   zmq/ZMQNotifierFactory.cpp
 endif
 
-# wallet: shared between divid and divi-qt, but only linked
+# wallet: shared between privatedivid and privatedivi-qt, but only linked
 # when wallet enabled
 
 libbitcoin_wallet_a_CFLAGS = -fPIC
@@ -693,7 +693,7 @@ univalue_libbitcoin_univalue_a_SOURCES = \
   univalue/univalue_escapes.h \
   univalue/univalue.h
 
-# common: shared between divid, and divi-qt and non-server tools
+# common: shared between privatedivid, and privatedivi-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_common_a_SOURCES = \
   allocators.cpp \
@@ -774,7 +774,7 @@ libbitcoin_util_a_SOURCES += compat/glibc_compat.cpp
 libbitcoin_util_a_SOURCES += compat/glibcxx_compat.cpp
 endif
 
-# cli: shared between divi-cli and divi-qt
+# cli: shared between privatedivi-cli and privatedivi-qt
 libbitcoin_cli_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_SOURCES = \
   rpcclient.cpp \
@@ -783,8 +783,8 @@ libbitcoin_cli_a_SOURCES = \
 nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
-# bitcoind binary #
-divid_LDADD = \
+# privatedivid binary #
+privatedivid_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UNIVALUE) \
@@ -796,27 +796,27 @@ divid_LDADD = \
   $(LIBSECP256K1)
 
 if ENABLE_ZMQ
-divid_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+privatedivid_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
-divid_LDADD += $(LIBBITCOIN_WALLET) \
+privatedivid_LDADD += $(LIBBITCOIN_WALLET) \
   $(LIBBITCOIN_CRYPTO)
 endif
-divid_SOURCES = divid.cpp
+privatedivid_SOURCES = privatedivid.cpp
 #
 
 if TARGET_WINDOWS
-divid_SOURCES += divid-res.rc
+privatedivid_SOURCES += privatedivid-res.rc
 endif
 
-divid_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
-divid_CPPFLAGS = $(BITCOIN_INCLUDES)
-divid_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+privatedivid_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+privatedivid_CPPFLAGS = $(BITCOIN_INCLUDES)
+privatedivid_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 
-# divi-cli binary #
-divi_cli_LDADD = \
+# privatedivi-cli binary #
+privatedivi_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO) \
@@ -825,14 +825,14 @@ divi_cli_LDADD = \
   $(CRYPTO_LIBS) \
   $(EVENT_LIBS)
 
-divi_cli_SOURCES = \
-  divi-cli.cpp
+privatedivi_cli_SOURCES = \
+  privatedivi-cli.cpp
 
-divi_cli_CPPFLAGS = $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+privatedivi_cli_CPPFLAGS = $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
 #
 
-# divi-tx binary #
-divi_tx_LDADD = \
+# privatedivi-tx binary #
+privatedivi_tx_LDADD = \
   $(LIBBITCOIN_UNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_ZEROCOIN) \
@@ -842,15 +842,15 @@ divi_tx_LDADD = \
   $(BOOST_LIBS) \
   $(CRYPTO_LIBS)
 
-divi_tx_SOURCES = divi-tx.cpp
-divi_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
+privatedivi_tx_SOURCES = privatedivi-tx.cpp
+privatedivi_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
 #
-divi_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+privatedivi_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-divi_cli_SOURCES += divi-cli-res.rc
+privatedivi_cli_SOURCES += privatedivi-cli-res.rc
 endif
-divi_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+privatedivi_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if BUILD_BITCOIN_LIBS
 include_HEADERS = script/bitcoinconsensus.h

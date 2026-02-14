@@ -1,8 +1,8 @@
 
 Debian
 ====================
-This directory contains files used to package divid/divi-qt
-for Debian-based Linux systems. If you compile divid/divi-qt yourself, there are some useful files here.
+This directory contains files used to package privatedivid/divi-qt
+for Debian-based Linux systems. If you compile privatedivid/divi-qt yourself, there are some useful files here.
 
 ## divi: URI support ##
 

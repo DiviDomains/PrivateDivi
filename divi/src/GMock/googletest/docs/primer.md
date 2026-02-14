@@ -94,7 +94,7 @@ test case need to share common objects and subroutines, you can put them into a
 
 A *test program* can contain multiple test cases.
 
-We'll now explain how to write a test program, starting at the individual
+We'll now explain how to write a test program, starting at the inprivatedividual
 assertion level and building up to tests and test cases.
 
 ## Assertions
@@ -261,8 +261,8 @@ TEST(TestCaseName, TestName) {
 of the test case, and the *second* argument is the test's name within the test
 case. Both names must be valid C++ identifiers, and they should not contain
 underscore (`_`). A test's *full name* consists of its containing test case and
-its individual name. Tests from different test cases can have the same
-individual name.
+its inprivatedividual name. Tests from different test cases can have the same
+inprivatedividual name.
 
 For example, let's take a simple integer function:
 

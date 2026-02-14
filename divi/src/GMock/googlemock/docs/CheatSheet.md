@@ -160,7 +160,7 @@ directly:
 | `ASSERT_THAT(value, matcher)` | The same as `EXPECT_THAT(value, matcher)`, except that it generates a **fatal** failure. |
 
 Built-in matchers (where `argument` is the function argument) are
-divided into several categories:
+privatedivided into several categories:
 
 ## Wildcard ##
 |`_`|`argument` can be any value of the correct type.|

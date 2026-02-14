@@ -10,7 +10,7 @@
 
 class Settings;
 /**
- * CBaseChainParams defines the base parameters (shared between divi-cli and divid)
+ * CBaseChainParams defines the base parameters (shared between divi-cli and privatedivid)
  * of a given instance of the Divi system.
  */
 class CBaseChainParams

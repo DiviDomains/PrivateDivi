@@ -822,7 +822,7 @@ be returned; otherwise `'b'` will be returned.
 
 ## Matching Multiple Arguments as a Whole ##
 
-Sometimes it's not enough to match the arguments individually. For
+Sometimes it's not enough to match the arguments inprivatedividually. For
 example, we may want to say that the first argument must be less than
 the second argument. The `With()` clause allows us to match
 all arguments of a mock function as a whole. For example,

@@ -278,12 +278,12 @@ bool MempoolConsensus::AcceptToMemoryPool(CTxMemPool& pool, CValidationState& st
 
     // Coinbase is only valid in a block, not as a loose transaction
     if (tx.IsCoinBase())
-        return state.DoS(100, error("%s: : coinbase as individual tx",__func__),
+        return state.DoS(100, error("%s: : coinbase as inprivatedividual tx",__func__),
                          REJECT_INVALID, "coinbase");
 
     //Coinstake is also only valid in a block, not as a loose transaction
     if (tx.IsCoinStake())
-        return state.DoS(100, error("%s: coinstake as individual tx",__func__),
+        return state.DoS(100, error("%s: coinstake as inprivatedividual tx",__func__),
                          REJECT_INVALID, "coinstake");
 
     // Rather not work on nonstandard transactions (unless -testnet/-regtest)

@@ -659,7 +659,7 @@ void StartRPCThreads()
         unsigned char rand_pwd[32];
         GetRandBytes(rand_pwd, 32);
         uiInterface.ThreadSafeMessageBox(strprintf(
-                                             translate("To use divid, or the -server option to divi-qt, you must set an rpcpassword in the configuration file:\n"
+                                             translate("To use privatedivid, or the -server option to divi-qt, you must set an rpcpassword in the configuration file:\n"
                                                "%s\n"
                                                "It is recommended you use the following random password:\n"
                                                "rpcuser=divirpc\n"

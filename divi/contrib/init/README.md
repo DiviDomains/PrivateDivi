@@ -1,10 +1,10 @@
 Sample configuration files for:
 
-SystemD: divid.service
-Upstart: divid.conf
-OpenRC:  divid.openrc
-         divid.openrcconf
-CentOS:  divid.init
+SystemD: privatedivid.service
+Upstart: privatedivid.conf
+OpenRC:  privatedivid.openrc
+         privatedivid.openrcconf
+CentOS:  privatedivid.init
 
 have been made available to assist packagers in creating node packages here.
 
