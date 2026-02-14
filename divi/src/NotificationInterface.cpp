@@ -5,6 +5,8 @@
 
 #include "NotificationInterface.h"
 
+using namespace boost::placeholders;
+
 MainNotificationSignals NotificationInterfaceRegistry::g_signals;
 
 void NotificationInterfaceRegistry::RegisterMainNotificationInterface(NotificationInterface* pwalletIn)
