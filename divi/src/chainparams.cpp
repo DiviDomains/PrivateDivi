@@ -106,29 +106,29 @@ namespace
 // + Contains no strange transactions
 const MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
-        (0, uint256("0x00000395d950c21af917448566b32ba1eba5e736dfa4273da0db7c388b89a314"));
+        (0, uint256("0x00000afaf0ab7827e3b8b68c7e0894a9e31c184107b51df0fd85fabe9050f695"));
 
 const CCheckpointData data = {
     &mapCheckpoints,
-    1537971708, // * UNIX timestamp of last checkpoint block (genesis)
+    1771041600, // * UNIX timestamp of last checkpoint block (genesis) - February 2026
     0,    // * total number of transactions between genesis and last checkpoint
     //   (the tx=... number in the SetBestChain debug.log lines)
     2000        // * estimated number of transactions per day after checkpoint
 };
 
 const MapCheckpoints mapCheckpointsTestnet =
-        boost::assign::map_list_of(0, uint256("0x00000ae103d7e9a29f7a1e97e6d04857786c7374cae489c44fb18b50e67389ac"));
+        boost::assign::map_list_of(0, uint256("0x00000afaf0ab7827e3b8b68c7e0894a9e31c184107b51df0fd85fabe9050f695"));
 const CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
-    1537971708,
+    1771041600,  // February 2026
     0,
     250};
 
 const MapCheckpoints mapCheckpointsRegtest =
-        boost::assign::map_list_of(0, uint256("0x4b66fa19b46819cedf4dd4c3f84229916089e09e693e69d1beab944492b84ce3"));
+        boost::assign::map_list_of(0, uint256("0x0000056b7de513e391d911c1d12115a355c738e593018401fc9c5577507a6461"));
 const CCheckpointData dataRegtest = {
     &mapCheckpointsRegtest,
-    1518723178,
+    1771041600,  // February 2026
     0,
     100};
 
@@ -215,17 +215,16 @@ public:
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nTime = 1537971708;
+        genesis.nTime = 1771041600;  // February 2026
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 1392478;
+        genesis.nNonce = 2406186;
         genesis.payee = txNew.vout[0].scriptPubKey;
 
         nExtCoinType = 801;
 
         hashGenesisBlock = genesis.GetHash();
 
-
-        assert(hashGenesisBlock == uint256("0x00000395d950c21af917448566b32ba1eba5e736dfa4273da0db7c388b89a314"));
+        assert(hashGenesisBlock == uint256("0x00000afaf0ab7827e3b8b68c7e0894a9e31c184107b51df0fd85fabe9050f695"));
         assert(genesis.hashMerkleRoot == uint256("0x4123e9ba36523af0b90b02b26663b76a11e9bf680e6c775d8dd6d7c66f95c4bd"));
 
         vSeeds.push_back(CDNSSeedData("seeds.divi.domains", "seeds.divi.domains"));
@@ -411,16 +410,14 @@ public:
         nTreasuryPaymentsCycle = 201;
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1591798387;
-        genesis.nNonce = 2109127;
+        genesis.nTime = 1771041600;  // February 2026 - same as mainnet
+        genesis.nNonce = 2406186;
 
         nExtCoinType = 1;
 
-
         hashGenesisBlock = genesis.GetHash();
 
-
-        assert(hashGenesisBlock == uint256("0x00000ae103d7e9a29f7a1e97e6d04857786c7374cae489c44fb18b50e67389ac"));
+        assert(hashGenesisBlock == uint256("0x00000afaf0ab7827e3b8b68c7e0894a9e31c184107b51df0fd85fabe9050f695"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -487,9 +484,9 @@ public:
         nTargetTimespan = 24 * 60 * 60; // Divi: 1 day
         nTargetSpacing = 1 * 60;        // Divi: 1 minutes
         bnProofOfWorkLimit = ~uint256(0) >> 1;
-        genesis.nTime = 1537971708;
+        genesis.nTime = 1771041600;  // February 2026
         genesis.nBits = 0x207fffff;
-        genesis.nNonce = 984952;
+        genesis.nNonce = 534730;
 
         nLotteryBlockStartBlock = 101;
         nLotteryBlockCycle = 10; // one week
@@ -509,9 +506,7 @@ public:
         nDefaultPort = 52476;
         nFulfilledRequestExpireTime = 5*60; // fulfilled requests expire in 5 minutes
 
-
-
-        assert(hashGenesisBlock == uint256("0x4b66fa19b46819cedf4dd4c3f84229916089e09e693e69d1beab944492b84ce3"));
+        assert(hashGenesisBlock == uint256("0x0000056b7de513e391d911c1d12115a355c738e593018401fc9c5577507a6461"));
 
         vFixedSeeds.clear(); //! Testnet mode doesn't have any fixed seeds.
         vSeeds.clear();      //! Testnet mode doesn't have any DNS seeds.
