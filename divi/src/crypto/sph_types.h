@@ -81,7 +81,7 @@
  * @subsection io Input/output conventions
  *
  * In all generality, hash functions operate over strings of bits.
- * Individual bits are rarely encountered in C programming or actual
+ * Inprivatedividual bits are rarely encountered in C programming or actual
  * communication protocols; most protocols converge on the ubiquitous
  * "octet" which is a group of eight bits. Data is thus expressed as a
  * stream of octets. The C programming language contains the notion of a
@@ -226,7 +226,7 @@
  *
  * We give here the list of implemented functions. They are grouped by
  * family; to each family corresponds a specific header file. Each
- * individual function has its associated "short name". Please refer to
+ * inprivatedividual function has its associated "short name". Please refer to
  * the documentation for that header file to get details on the hash
  * function denomination and provenance.
  *

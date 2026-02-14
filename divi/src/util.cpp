@@ -114,7 +114,7 @@ Settings& settings = Settings::instance();
 #ifndef WIN32
 boost::filesystem::path GetPidFile(const Settings& settings)
 {
-    boost::filesystem::path pathPidFile(settings.GetArg("-pid", "divid.pid"));
+    boost::filesystem::path pathPidFile(settings.GetArg("-pid", "privatedivid.pid"));
     if (!pathPidFile.is_complete()) pathPidFile = GetDataDir() / pathPidFile;
     return pathPidFile;
 }

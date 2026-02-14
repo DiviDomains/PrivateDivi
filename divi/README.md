@@ -1,4 +1,4 @@
-DIVI Core Integration and Staging Repository
+PrivateDivi Core Integration and Staging Repository
 =====================================
 
 [![Build Status](https://travis-ci.org/divicoin/divi.svg?branch=master)](https://travis-ci.org/divicoin/divi) [![GitHub version](https://badge.fury.io/gh/divicoin%2FDIVI.svg)](https://badge.fury.io/gh/divicoin%2FDIVI)
@@ -8,7 +8,7 @@ DIVI is a new cutting edge cryptocurrency which includes several key features th
 - Decentralized blockchain voting provides consensus based advancement of the current Masternode technology used to secure the network and provide additional feature functionality.
 - Each of the 5-Tier level Masternodes are secured with a collateral DIV.
 
-Additional information can be found at [diviproject.org](http://www.diviproject.org) 
+Additional information can be found at [divi.domains](http://www.divi.domains) 
 
 ### Coin Specs
 <table>

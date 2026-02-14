@@ -888,7 +888,7 @@ testing::FLAGS_gtest_death_test_style="threadsafe"
 ```
 
 You can do this in `main()` to set the style for all death tests in the binary,
-or in individual tests. Recall that flags are saved before running each test and
+or in inprivatedividual tests. Recall that flags are saved before running each test and
 restored afterwards, so you need not do that yourself. For example:
 
 ```c++
@@ -1700,7 +1700,7 @@ To test them, we use the following special techniques:
     [Pimpl](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/the-c-pimpl-r1794/)
     (Private Implementation) idiom.
 
-    Or, you can declare an individual test as a friend of your class by adding
+    Or, you can declare an inprivatedividual test as a friend of your class by adding
     this line in the class body:
 
     ```c++

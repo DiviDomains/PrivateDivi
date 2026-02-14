@@ -6,16 +6,16 @@ define(_CLIENT_VERSION_REVISION, 0)
 define(_CLIENT_VERSION_BUILD, 0)
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2023)
-AC_INIT([Divi Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[www.diviproject.org],[divi])
+AC_INIT([PrivateDivi Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[divi.domains],[privatedivi])
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([src/config/divi-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
-BITCOIN_DAEMON_NAME=divid
-BITCOIN_GUI_NAME=divi-qt
-BITCOIN_CLI_NAME=divi-cli
-BITCOIN_TX_NAME=divi-tx
+BITCOIN_DAEMON_NAME=privatedivid
+BITCOIN_GUI_NAME=privatedivi-qt
+BITCOIN_CLI_NAME=privatedivi-cli
+BITCOIN_TX_NAME=privatedivi-tx
 
 AC_CANONICAL_HOST
 
@@ -217,7 +217,7 @@ AC_ARG_WITH([libs],
 
 AC_ARG_WITH([daemon],
   [AS_HELP_STRING([--with-daemon],
-  [build divid daemon (default=yes)])],
+  [build privatedivid daemon (default=yes)])],
   [build_bitcoind=$withval],
   [build_bitcoind=yes])
 
@@ -820,7 +820,7 @@ LIBS="$LIBS_TEMP"
 
 BITCOIN_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 
-AC_MSG_CHECKING([whether to build divid])
+AC_MSG_CHECKING([whether to build privatedivid])
 AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_bitcoind = xyes])
 AC_MSG_RESULT($build_bitcoind)
 

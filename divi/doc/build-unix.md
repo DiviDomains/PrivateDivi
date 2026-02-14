@@ -24,7 +24,7 @@ make install # optional
 
 If you are using Ubuntu 18 or newer, run `./configure --disable-tests --without-gui --with-unsupported-ssl` to build with system OpenSSL which is required for Ubuntu > 16.10
 
-This will build divid, building divi-qt is deprecated and shouldn't be used.
+This will build privatedivid, building divi-qt is deprecated and shouldn't be used.
 
 Dependencies
 ---------------------
@@ -52,7 +52,7 @@ System requirements
 --------------------
 
 C++ compilers are memory-hungry. It is recommended to have at least 1 GB of
-memory available when compiling DIVI Core. With 512MB of memory or less
+memory available when compiling PrivateDivi Core. With 512MB of memory or less
 compilation will take much longer due to swap thrashing.
 
 Dependency Build Instructions: Ubuntu & Debian
@@ -103,7 +103,7 @@ built by default.
 
 Notes
 -----
-The release is built with GCC and then "strip divid" to strip the debug
+The release is built with GCC and then "strip privatedivid" to strip the debug
 symbols, which reduces the executable size by about 90%.
 
 
@@ -150,7 +150,7 @@ cd db-4.8.30.NC/build_unix/
 ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX
 make install
 
-# Configure DIVI Core to use our own-built instance of BDB
+# Configure PrivateDivi Core to use our own-built instance of BDB
 cd $DIVI_ROOT
 ./configure (other args...) LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/"
 ```
@@ -192,7 +192,7 @@ Hardening enables the following features:
 
     To test that you have built PIE executable, install scanelf, part of paxutils, and use:
 
-    	scanelf -e ./divid
+    	scanelf -e ./privatedivid
 
     The output should contain:
      TYPE
@@ -206,7 +206,7 @@ Hardening enables the following features:
     executable without the non-executable stack protection.
 
     To verify that the stack is non-executable after compiling use:
-    `scanelf -e ./divid`
+    `scanelf -e ./privatedivid`
 
     the output should contain:
 	STK/REL/PTL

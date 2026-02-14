@@ -56,13 +56,13 @@ bool TryCreateDirectory(const boost::filesystem::path& p)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-// Windows < Vista: C:\Documents and Settings\Username\Application Data\DIVI
-// Windows >= Vista: C:\Users\Username\AppData\Roaming\DIVI
-// Mac: ~/Library/Application Support/DIVI
-// Unix: ~/.divi
+// Windows < Vista: C:\Documents and Settings\Username\Application Data\PrivateDivi
+// Windows >= Vista: C:\Users\Username\AppData\Roaming\PrivateDivi
+// Mac: ~/Library/Application Support/PrivateDivi
+// Unix: ~/.privatedivi
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "DIVI";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "PrivateDivi";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -74,10 +74,10 @@ boost::filesystem::path GetDefaultDataDir()
     // Mac
     pathRet /= "Library/Application Support";
     TryCreateDirectory(pathRet);
-    return pathRet / "DIVI";
+    return pathRet / "PrivateDivi";
 #else
     // Unix
-    return pathRet / ".divi";
+    return pathRet / ".privatedivi";
 #endif
 #endif
 }

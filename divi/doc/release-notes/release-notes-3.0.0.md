@@ -1,4 +1,4 @@
-DIVI Core version 3.0.0 is now available from:
+PrivateDivi Core version 3.0.0 is now available from:
 
   <https://github.com/divicoin/divi/releases>
 
@@ -12,19 +12,19 @@ Please report bugs using the issue tracker at github:
 Mandatory Update
 ==============
 
-DIVI Core v3.0.0 is a mandatory update for all users. This release contains new consensus rules and improvements that are not backwards compatible with older versions. Users will have a grace period of one week to update their clients before enforcement of this update is enabled.
+PrivateDivi Core v3.0.0 is a mandatory update for all users. This release contains new consensus rules and improvements that are not backwards compatible with older versions. Users will have a grace period of one week to update their clients before enforcement of this update is enabled.
 
 Users updating from a previous version after the 13th of October will require a full resync of their local blockchain from either the P2P network or by way of the bootstrap.
 
 How to Upgrade
 ==============
 
-If you are running an older version, shut it down. Wait until it has completely shut down (which might take a few minutes for older versions), then run the installer (on Windows) or just copy over /Applications/DIVI-Qt (on Mac) or divid/divi-qt (on Linux).
+If you are running an older version, shut it down. Wait until it has completely shut down (which might take a few minutes for older versions), then run the installer (on Windows) or just copy over /Applications/DIVI-Qt (on Mac) or privatedivid/divi-qt (on Linux).
 
 Compatibility
 ==============
 
-DIVI Core is extensively tested on multiple operating systems using
+PrivateDivi Core is extensively tested on multiple operating systems using
 the Linux kernel, macOS 10.8+, and Windows Vista and later.
 
 Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
@@ -32,7 +32,7 @@ No attempt is made to prevent installing or running the software on Windows XP, 
 can still do so at your own risk but be aware that there are known instabilities and issues.
 Please do not report issues about Windows XP to the issue tracker.
 
-DIVI Core should also work on most other Unix-like systems but is not
+PrivateDivi Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 ### :exclamation::exclamation::exclamation: MacOS 10.13 High Sierra :exclamation::exclamation::exclamation:
@@ -53,7 +53,7 @@ The Zerocoin protocol allows user to convert (mint) their *DIV* to zerocoins, wh
 ### zDIV Denominations
 zDIV comes in specific denominations of 1, 5, 10, 50, 100, 500, 1000, and 5000. A denomination is a similar concept to paper currency, where you can hold a $100 bill but there is no available $99 bill for you to hold.
 
-Other implementations of the zerocoin protocol only allow for spending of one denomination/zerocoin at a time. The DIVI implementation of zerocoin allows users to spend any amount of zDIV they would like (with certain limitations). If a user held two denominations of 5 and they send 7.75 to a merchant, the wallet will automatically grab the two denominations of 5 and then issue 2.25 DIV in change to the spender. There is currently a limit of up to 6 individual zerocoin `coins` that can be combined into a spend, where each `coin` could be a different or similar denomination
+Other implementations of the zerocoin protocol only allow for spending of one denomination/zerocoin at a time. The DIVI implementation of zerocoin allows users to spend any amount of zDIV they would like (with certain limitations). If a user held two denominations of 5 and they send 7.75 to a merchant, the wallet will automatically grab the two denominations of 5 and then issue 2.25 DIV in change to the spender. There is currently a limit of up to 6 inprivatedividual zerocoin `coins` that can be combined into a spend, where each `coin` could be a different or similar denomination
 
 The DIVI zerocoin implementation is structured in such a way that denominations aren't needed to be known by the average user.
 
@@ -95,11 +95,11 @@ Similar to the concept of Coin Control in the QT wallet, zDIV Control allows use
 Tor Service Integration Improvements
 ---------------------
 
-Integrating with Tor is now easier than ever! Starting with Tor version 0.2.7.1 it is possible, through Tor's control socket API, to create and destroy 'ephemeral' hidden services programmatically. DIVI Core has been updated to make use of this.
+Integrating with Tor is now easier than ever! Starting with Tor version 0.2.7.1 it is possible, through Tor's control socket API, to create and destroy 'ephemeral' hidden services programmatically. PrivateDivi Core has been updated to make use of this.
 
-This means that if Tor is running (and proper authorization is available), DIVI Core automatically creates a hidden service to listen on, without manual configuration. DIVI Core will also use Tor automatically to connect to other .onion nodes if the control socket can be successfully opened. This will positively affect the number of available .onion nodes and their usage.
+This means that if Tor is running (and proper authorization is available), PrivateDivi Core automatically creates a hidden service to listen on, without manual configuration. PrivateDivi Core will also use Tor automatically to connect to other .onion nodes if the control socket can be successfully opened. This will positively affect the number of available .onion nodes and their usage.
 
-This new feature is enabled by default if DIVI Core is listening, and a connection to Tor can be made. It can be configured with the `-listenonion`, `-torcontrol` and `-torpassword` settings. To show verbose debugging information, pass `-debug=tor`.
+This new feature is enabled by default if PrivateDivi Core is listening, and a connection to Tor can be made. It can be configured with the `-listenonion`, `-torcontrol` and `-torpassword` settings. To show verbose debugging information, pass `-debug=tor`.
 
 3.0.0 Change log
 =================

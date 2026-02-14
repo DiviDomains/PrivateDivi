@@ -533,7 +533,7 @@ const char * const wordlist[] = {
 "display",
 "distance",
 "divert",
-"divide",
+"privatedivide",
 "divorce",
 "dizzy",
 "doctor",

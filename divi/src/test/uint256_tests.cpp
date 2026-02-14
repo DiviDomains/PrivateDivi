@@ -537,7 +537,7 @@ BOOST_AUTO_TEST_CASE( multiply_overflow )
     BOOST_CHECK(!value.MultiplyBy(HalfL));
 }
 
-BOOST_AUTO_TEST_CASE( divide )
+BOOST_AUTO_TEST_CASE( privatedivide )
 {
     uint256 D1L("AD7133AC1977FA2B7");
     uint256 D2L("ECD751716");

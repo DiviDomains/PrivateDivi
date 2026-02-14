@@ -1358,7 +1358,7 @@ bool BindListenPort(const CService& addrBind, string& strError, bool fWhiteliste
     if (::bind(hListenSocket, (struct sockaddr*)&sockaddr, len) == SOCKET_ERROR) {
         int nErr = WSAGetLastError();
         if (nErr == WSAEADDRINUSE)
-            strError = strprintf(translate("Unable to bind to %s on this computer. DIVI Core is probably already running."), addrBind.ToString());
+            strError = strprintf(translate("Unable to bind to %s on this computer. PrivateDivi Core is probably already running."), addrBind.ToString());
         else
             strError = strprintf(translate("Unable to bind to %s on this computer (bind returned error %s)"), addrBind.ToString(), NetworkErrorString(nErr));
         LogPrintf("%s\n", strError);

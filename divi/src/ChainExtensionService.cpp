@@ -71,7 +71,7 @@ static const CBlockIndex* SelectBlockIndexWithTimestampUpperBound(
         // compute the selection hash by hashing an input that is unique to that block
         const uint256 blockSelectionRandomnessSeed = pindex->IsProofOfStake() ? 0 : pindex->GetBlockHash();
 
-        // the selection hash is divided by 2**32 so that proof-of-stake block
+        // the selection hash is privatedivided by 2**32 so that proof-of-stake block
         // is always favored over proof-of-work block. this is to preserve
         // the energy efficiency property
         CDataStream ss(SER_GETHASH, 0);

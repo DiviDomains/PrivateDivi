@@ -127,8 +127,8 @@ bool CScriptCompressor::Decompress(unsigned int nSize, const std::vector<unsigne
 
 // Amount compression:
 // * If the amount is 0, output 0
-// * first, divide the amount (in base units) by the largest power of 10 possible; call the exponent e (e is max 9)
-// * if e<9, the last digit of the resulting number cannot be 0; store it as d, and drop it (divide by 10)
+// * first, privatedivide the amount (in base units) by the largest power of 10 possible; call the exponent e (e is max 9)
+// * if e<9, the last digit of the resulting number cannot be 0; store it as d, and drop it (privatedivide by 10)
 //   * call the result n
 //   * output 1 + 10*(9*n + d - 1) + e
 // * if e==9, we only know the resulting number is not zero, so output 1 + 10*(n - 1) + 9

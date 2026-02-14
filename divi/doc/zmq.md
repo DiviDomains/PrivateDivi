@@ -5,7 +5,7 @@ connections, inter-process communication, and shared-memory,
 providing various message-oriented semantics such as publish/subscribe,
 request/reply, and push/pull.
 
-The DIVI Core daemon can be configured to act as a trusted "border
+The PrivateDivi Core daemon can be configured to act as a trusted "border
 router", implementing the divi wire protocol and relay, making
 consensus decisions, maintaining the local blockchain database,
 broadcasting locally generated transactions into the network, and
@@ -33,7 +33,7 @@ buffering or reassembly.
 
 ## Prerequisites
 
-The ZeroMQ feature in DIVI Core requires ZeroMQ API version 4.x or
+The ZeroMQ feature in PrivateDivi Core requires ZeroMQ API version 4.x or
 newer. Typically, it is packaged by distributions as something like
 *libzmq3-dev*. The C++ wrapper for ZeroMQ is *not* needed.
 
@@ -45,7 +45,7 @@ operation.
 
 By default, the ZeroMQ feature is automatically compiled in if the
 necessary prerequisites are found.  To disable, use --disable-zmq
-during the *configure* step of building divid:
+during the *configure* step of building privatedivid:
 
     $ ./configure --disable-zmq (other options)
 
@@ -66,8 +66,8 @@ address. The same address can be used in more than one notification.
 
 For instance:
 
-    $ divid -zmqpubhashtx=tcp://127.0.0.1:28332 \
-               -zmqpubrawtx=ipc:///tmp/divid.tx.raw
+    $ privatedivid -zmqpubhashtx=tcp://127.0.0.1:28332 \
+               -zmqpubrawtx=ipc:///tmp/privatedivid.tx.raw
 
 Each PUB notification has a topic and body, where the header
 corresponds to the notification type. For instance, for the
@@ -87,9 +87,9 @@ arriving. Please see `contrib/zmq/zmq_sub.py` for a working example.
 
 ## Remarks
 
-From the perspective of divid, the ZeroMQ socket is write-only; PUB
+From the perspective of privatedivid, the ZeroMQ socket is write-only; PUB
 sockets don't even have a read function. Thus, there is no state
-introduced into divid directly. Furthermore, no information is
+introduced into privatedivid directly. Furthermore, no information is
 broadcast that wasn't already received from the public P2P network.
 
 No authentication or authorization is done on connecting clients; it

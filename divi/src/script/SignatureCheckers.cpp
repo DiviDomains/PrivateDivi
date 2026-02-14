@@ -120,7 +120,7 @@ bool static IsLowDERSignature(const valtype &vchSig, ScriptError* serror) {
     unsigned int nLenR = vchSig[3];
     unsigned int nLenS = vchSig[5+nLenR];
     const unsigned char *S = &vchSig[6+nLenR];
-    // If the S value is above the order of the curve divided by two, its
+    // If the S value is above the order of the curve privatedivided by two, its
     // complement modulo the order could have been used instead, which is
     // one byte shorter when encoded correctly.
     if (!eccrypto::CheckSignatureElement(S, nLenS, true))

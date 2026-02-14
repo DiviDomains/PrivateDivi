@@ -50,11 +50,11 @@ static bool AppInitRPC(int argc, char* argv[])
     //
     settings.ParseParameters(argc, argv);
     if (argc < 2 ||settings.ParameterIsSet("-?") ||settings.ParameterIsSet("-help") ||settings.ParameterIsSet("-version")) {
-        std::string strUsage = translate("Divi Core RPC client version") + " " + FormatFullVersion() + "\n";
+        std::string strUsage = translate("PrivateDivi Core RPC client version") + " " + FormatFullVersion() + "\n";
         if (settings.ParameterIsSet("-version")) {
             strUsage += LicenseInfo();
             strUsage += "\n" + translate("Usage:") + "\n" +
-                        "  divi-cli [options] <command> [params]  " + translate("Send command to Divi Core") + "\n" +
+                        "  divi-cli [options] <command> [params]  " + translate("Send command to PrivateDivi Core") + "\n" +
                         "  divi-cli [options] help                " + translate("List commands") + "\n" +
                         "  divi-cli [options] help <command>      " + translate("Get help for a command") + "\n";
 

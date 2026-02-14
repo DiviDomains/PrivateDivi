@@ -27,7 +27,7 @@
  *
  * \section intro_sec Introduction
  *
- * This is the developer documentation of the reference client for an experimental new digital currency called DIVI (http://www.diviproject.org),
+ * This is the developer documentation of the reference client for an experimental new digital currency called DIVI (http://www.divi.domains),
  * which enables instant payments to anyone, anywhere in the world. DIVI uses peer-to-peer technology to operate
  * with no central authority: managing transactions and issuing money are carried out collectively by the network.
  *
@@ -72,13 +72,13 @@ bool AppInit(int argc, char* argv[])
     EnableMainSignals();
     // Process help and version before taking care about datadir
     if (settings.ParameterIsSet("-?") || settings.ParameterIsSet("-help") || settings.ParameterIsSet("-version")) {
-        std::string strUsage = translate("Divi Core Daemon") + " " + translate("version") + " " + FormatFullVersion() + "\n";
+        std::string strUsage = translate("PrivateDivi Core Daemon") + " " + translate("version") + " " + FormatFullVersion() + "\n";
 
         if (settings.ParameterIsSet("-version")) {
             strUsage += LicenseInfo();
         } else {
             strUsage += "\n" + translate("Usage:") + "\n" +
-                        "  divid [options]                     " + translate("Start Divi Core Daemon") + "\n";
+                        "  privatedivid [options]                     " + translate("Start PrivateDivi Core Daemon") + "\n";
 
             strUsage += "\n" + HelpMessage(HMM_BITCOIND,settings,Params(CBaseChainParams::MAIN));
         }
@@ -111,7 +111,7 @@ bool AppInit(int argc, char* argv[])
                 fCommandLine = true;
 
         if (fCommandLine) {
-            fprintf(stderr, "Error: There is no RPC client functionality in divid anymore. Use the divi-cli utility instead.\n");
+            fprintf(stderr, "Error: There is no RPC client functionality in privatedivid anymore. Use the divi-cli utility instead.\n");
             exit(1);
         }
 #ifndef WIN32
@@ -174,7 +174,7 @@ int main(int argc, char* argv[])
 {
     SetupEnvironment();
 
-    // Connect divid signal handlers
+    // Connect privatedivid signal handlers
     noui_connect();
 
     return (AppInit(argc, argv) ? 0 : 1);

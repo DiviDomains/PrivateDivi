@@ -6,9 +6,9 @@ and tests weren't explicitly disabled.
 
 After configuring, they can be run with 'make check'.
 
-To run the divid tests manually, launch src/test/test_divi .
+To run the privatedivid tests manually, launch src/test/test_divi .
 
-To add more divid tests, add `BOOST_AUTO_TEST_CASE` functions to the existing
+To add more privatedivid tests, add `BOOST_AUTO_TEST_CASE` functions to the existing
 .cpp files in the test/ directory or add new .cpp files that
 implement new BOOST_AUTO_TEST_SUITE sections.
 

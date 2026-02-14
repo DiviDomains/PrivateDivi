@@ -1,7 +1,7 @@
 Gitian building
 ================
 
-*Setup instructions for a Gitian build of Divi Core using a Debian VM or physical system.*
+*Setup instructions for a Gitian build of PrivateDivi Core using a Debian VM or physical system.*
 
 Gitian is the deterministic build process that is used to build the Divi
 Core executables. It provides a way to be reasonably sure that the
@@ -11,7 +11,7 @@ the same, tested dependencies are used and statically built into the executable.
 Multiple developers build the source code by following a specific descriptor
 ("recipe"), cryptographically sign the result, and upload the resulting signature.
 These results are compared and only if they match, the build is accepted and uploaded
-to diviproject.org.
+to divi.domains.
 
 More independent Gitian builders are needed, which is why this guide exists.
 It is preferred you follow these steps yourself instead of using someone else's
@@ -26,7 +26,7 @@ Table of Contents
 - [Installing Gitian](#installing-gitian)
 - [Setting up the Gitian image](#setting-up-the-gitian-image)
 - [Getting and building the inputs](#getting-and-building-the-inputs)
-- [Building Divi Core](#building-Divi-core)
+- [Building PrivateDivi Core](#building-Divi-core)
 
 Preparing the Gitian builder host
 ---------------------------------
@@ -236,7 +236,7 @@ For example, to connect as `root` from a Linux command prompt use
 
     The programs included with the Debian GNU/Linux system are free software;
     the exact distribution terms for each program are described in the
-    individual files in /usr/share/doc/*/copyright.
+    inprivatedividual files in /usr/share/doc/*/copyright.
 
     Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
     permitted by applicable law.
@@ -303,7 +303,7 @@ cd ..
 
 **Note**: When sudo asks for a password, enter the password for the user *debian* not for *root*.
 
-Clone the git repositories for Divi Core and Gitian.
+Clone the git repositories for PrivateDivi Core and Gitian.
 
 ```bash
 git clone https://github.com/devrandom/gitian-builder.git
@@ -344,15 +344,15 @@ Getting and building the inputs
 At this point you have two options, you can either use the automated script (found in [contrib/gitian-build.sh](/contrib/gitian-build.sh)) or you could manually do everything by following this guide. If you're using the automated script, then run it with the "--setup" command. Afterwards, run it with the "--build" command (example: "contrib/gitian-building.sh -b signer 0.13.0"). Otherwise ignore this.
 
 Follow the instructions in [doc/release-process.md](release-process.md#fetch-and-create-inputs-first-time-or-when-dependency-versions-change)
-in the Divi Core repository under 'Fetch and create inputs' to install sources which require
+in the PrivateDivi Core repository under 'Fetch and create inputs' to install sources which require
 manual intervention. Also optionally follow the next step: 'Seed the Gitian sources cache
 and offline git repositories' which will fetch the remaining files required for building
 offline.
 
-Building Divi Core
+Building PrivateDivi Core
 ----------------
 
-To build Divi Core (for Linux, OS X and Windows):
+To build PrivateDivi Core (for Linux, OS X and Windows):
 
 First update
 

@@ -267,7 +267,7 @@ bool CCoinsViewCache::HaveCoins(const uint256& txid) const
     // We're using vtx.empty() instead of IsPruned here for performance reasons,
     // as we only care about the case where a transaction was replaced entirely
     // in a reorganization (which wipes vout entirely, as opposed to spending
-    // which just cleans individual outputs).
+    // which just cleans inprivatedividual outputs).
     return (it != cacheCoins.end() && !it->second.coins.vout.empty());
 }
 

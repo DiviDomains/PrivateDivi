@@ -513,7 +513,7 @@ class ParameterizedTestCaseInfo : public ParameterizedTestCaseInfoBase {
   // TEST_P macro uses AddTestPattern() to record information
   // about a single test in a LocalTestInfo structure.
   // test_case_name is the base name of the test case (without invocation
-  // prefix). test_base_name is the name of an individual test without
+  // prefix). test_base_name is the name of an inprivatedividual test without
   // parameter index. For the test SequenceA/FooTest.DoBar/1 FooTest is
   // test case base name and DoBar is test base name.
   void AddTestPattern(const char* test_case_name,
