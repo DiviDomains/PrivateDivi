@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: "Default Build"
+            configure_flags: "--disable-gui --disable-tests --with-incompatible-bdb --with-unsupported-ssl"
+          - name: "With ZMQ"
+            configure_flags: "--disable-gui --disable-tests --with-incompatible-bdb --with-unsupported-ssl --enable-zmq"
+
+    name: ${{ matrix.config.name }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libtool autotools-dev automake pkg-config \
+            libssl-dev libevent-dev bsdmainutils libboost-all-dev \
+            libminiupnpc-dev libzmq3-dev libdb-dev libdb++-dev
+
+      - name: Cache build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            divi/src/.libs
+            divi/src/leveldb
+            divi/src/secp256k1/.libs
+          key: ${{ runner.os }}-build-${{ hashFiles('divi/src/**/*.cpp', 'divi/src/**/*.h') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Build PrivateDivi
+        run: |
+          cd divi
+          ./autogen.sh
+          ./configure ${{ matrix.config.configure_flags }}
+          make -j$(nproc)
+
+      - name: Verify binaries
+        run: |
+          test -x divi/src/privatedivid
+          test -x divi/src/privatedivi-cli
+          test -x divi/src/privatedivi-tx
+          echo "All binaries built successfully"
+
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for trailing whitespace
+        run: |
+          ! git grep -I -n ' $' -- '*.cpp' '*.h' '*.py' '*.sh' || echo "Warning: trailing whitespace found"
+
+      - name: Check for tabs in source files
+        run: |
+          ! git grep -I -n $'\t' -- '*.py' || echo "Warning: tabs found in Python files"
