@@ -6,38 +6,63 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "rpcserver.h"
+using namespace boost::placeholders;
 
 #include <Logging.h>
+using namespace boost::placeholders;
 #include <rpcprotocol.h>
+using namespace boost::placeholders;
 #include "base58.h"
+using namespace boost::placeholders;
 #include "init.h"
+using namespace boost::placeholders;
 #include "ui_interface.h"
+using namespace boost::placeholders;
 #include "util.h"
+using namespace boost::placeholders;
 #ifdef ENABLE_WALLET
 #include "wallet.h"
+using namespace boost::placeholders;
 #endif
 #include "Settings.h"
+using namespace boost::placeholders;
 #include <utilmoneystr.h>
+using namespace boost::placeholders;
 #include <random.h>
+using namespace boost::placeholders;
 #include <alert.h>
+using namespace boost::placeholders;
 #include <Warnings.h>
+using namespace boost::placeholders;
 
 #include <deque>
+using namespace boost::placeholders;
 
 #include "json/json_spirit_writer_template.h"
+using namespace boost::placeholders;
 #include <boost/algorithm/string.hpp>
+using namespace boost::placeholders;
 #include <boost/asio.hpp>
+using namespace boost::placeholders;
 #include <boost/bind.hpp>
 using namespace boost::placeholders;
 #include <boost/filesystem.hpp>
+using namespace boost::placeholders;
 #include <boost/foreach.hpp>
+using namespace boost::placeholders;
 #include <boost/iostreams/concepts.hpp>
+using namespace boost::placeholders;
 #include <boost/iostreams/stream.hpp>
+using namespace boost::placeholders;
 #include <boost/shared_ptr.hpp>
+using namespace boost::placeholders;
 #include <boost/thread.hpp>
+using namespace boost::placeholders;
 
 #include <AcceptedConnection.h>
+using namespace boost::placeholders;
 #include <rest.h>
+using namespace boost::placeholders;
 
 extern CCriticalSection cs_main;
 
