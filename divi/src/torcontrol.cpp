@@ -4,37 +4,63 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "torcontrol.h"
+using namespace boost::placeholders;
 #include "utilstrencodings.h"
+using namespace boost::placeholders;
 #include "netbase.h"
+using namespace boost::placeholders;
 #include "net.h"
+using namespace boost::placeholders;
 #include "crypto/hmac_sha256.h"
+using namespace boost::placeholders;
 #include <random.h>
+using namespace boost::placeholders;
 
 #include <vector>
+using namespace boost::placeholders;
 #include <deque>
+using namespace boost::placeholders;
 #include <set>
+using namespace boost::placeholders;
 #include <stdlib.h>
+using namespace boost::placeholders;
 
 #include <boost/function.hpp>
+using namespace boost::placeholders;
 #include <boost/bind.hpp>
 using namespace boost::placeholders;
 #include <boost/signals2/signal.hpp>
+using namespace boost::placeholders;
 #include <boost/foreach.hpp>
+using namespace boost::placeholders;
 #include <boost/algorithm/string/predicate.hpp>
+using namespace boost::placeholders;
 #include <boost/algorithm/string/split.hpp>
+using namespace boost::placeholders;
 #include <boost/algorithm/string/classification.hpp>
+using namespace boost::placeholders;
 #include <boost/algorithm/string/replace.hpp>
+using namespace boost::placeholders;
 
 #include <event2/bufferevent.h>
+using namespace boost::placeholders;
 #include <event2/buffer.h>
+using namespace boost::placeholders;
 #include <event2/util.h>
+using namespace boost::placeholders;
 #include <event2/event.h>
+using namespace boost::placeholders;
 #include <event2/thread.h>
+using namespace boost::placeholders;
 
 #include <DataDirectory.h>
+using namespace boost::placeholders;
 #include <defaultValues.h>
+using namespace boost::placeholders;
 #include <ThreadManagementHelpers.h>
+using namespace boost::placeholders;
 #include <Settings.h>
+using namespace boost::placeholders;
 extern Settings& settings;
 
 /** Tor cookie size (from control-spec.txt) */
