@@ -200,6 +200,7 @@ jobs:
           tar xzf libevent.tar.gz
           cd libevent-2.1.12-stable
           ./configure --prefix=$DEPS_PREFIX --disable-shared --enable-static --with-pic \
+            --disable-samples --disable-libevent-regress \
             CPPFLAGS="-I$DEPS_PREFIX/include" LDFLAGS="-L$DEPS_PREFIX/lib"
           make -j$($NPROC_CMD)
           sudo make install
