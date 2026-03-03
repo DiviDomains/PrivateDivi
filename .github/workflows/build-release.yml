@@ -159,7 +159,6 @@ jobs:
       - name: Install build tools
         run: |
           brew install automake libtool pkg-config
-          pip3 install setuptools --break-system-packages
 
       - name: Cache depends
         uses: actions/cache@v4
@@ -175,7 +174,7 @@ jobs:
         run: |
           HOST=$(divi/depends/config.guess)
           echo "HOST=${HOST}" >> $GITHUB_ENV
-          make -C divi/depends HOST=${HOST} -j$(sysctl -n hw.logicalcpu)
+          make -C divi/depends HOST=${HOST} darwin_native_packages="" -j$(sysctl -n hw.logicalcpu)
 
       - name: Build PrivateDivi
         run: |
