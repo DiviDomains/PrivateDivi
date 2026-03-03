@@ -167,7 +167,7 @@ jobs:
           cd boost_1_76_0
           ./bootstrap.sh --prefix=/usr/local
           sudo ./b2 --with-system --with-filesystem --with-program_options --with-thread --with-chrono \
-            cxxflags="-Wno-deprecated-declarations" \
+            cxxflags="-Wno-deprecated-declarations -Wno-enum-constexpr-conversion" \
             link=shared threading=multi -j$(sysctl -n hw.logicalcpu) install
 
       - name: Build PrivateDivi
@@ -184,7 +184,8 @@ jobs:
             --with-boost=/usr/local \
             --with-boost-libdir=/usr/local/lib \
             LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix berkeley-db)/lib -L/usr/local/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix zeromq)/lib" \
-            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix berkeley-db)/include -I/usr/local/include -I$(brew --prefix libevent)/include -I$(brew --prefix zeromq)/include"
+            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix berkeley-db)/include -I/usr/local/include -I$(brew --prefix libevent)/include -I$(brew --prefix zeromq)/include" \
+            CXXFLAGS="-Wno-deprecated-declarations -Wno-enum-constexpr-conversion"
           make -j$(sysctl -n hw.logicalcpu)
 
       - name: Determine version
