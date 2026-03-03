@@ -149,31 +149,41 @@ jobs:
           path: privatedivi-${{ steps.version.outputs.version }}-win64.zip
 
   # ---------------------------------------------------------------------------
-  # macOS ARM64 (native build with Homebrew on Apple Silicon)
+  # macOS ARM64 (native build using depends system on Apple Silicon)
   # ---------------------------------------------------------------------------
   build-macos:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies via Homebrew
+      - name: Install build tools
         run: |
-          brew install automake libtool pkg-config openssl@3 boost libevent miniupnpc zeromq berkeley-db
+          brew install automake libtool pkg-config
+
+      - name: Cache depends
+        uses: actions/cache@v4
+        with:
+          path: |
+            divi/depends/built
+            divi/depends/sources
+          key: depends-macos-arm64-${{ hashFiles('divi/depends/packages/*.mk') }}
+          restore-keys: |
+            depends-macos-arm64-
+
+      - name: Build depends
+        run: |
+          HOST=$(divi/depends/config.guess)
+          echo "HOST=${HOST}" >> $GITHUB_ENV
+          make -C divi/depends HOST=${HOST} -j$(sysctl -n hw.logicalcpu)
 
       - name: Build PrivateDivi
         run: |
           cd divi
           ./autogen.sh
-          ./configure \
+          CONFIG_SITE=$PWD/depends/${HOST}/share/config.site ./configure \
             --disable-gui \
             --disable-tests \
-            --disable-bench \
-            --with-incompatible-bdb \
-            --with-unsupported-ssl \
-            --with-boost="$(brew --prefix boost)" \
-            --with-boost-libdir="$(brew --prefix boost)/lib" \
-            LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix berkeley-db)/lib -L$(brew --prefix boost)/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix miniupnpc)/lib -L$(brew --prefix zeromq)/lib" \
-            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix berkeley-db)/include -I$(brew --prefix boost)/include -I$(brew --prefix libevent)/include -I$(brew --prefix miniupnpc)/include -I$(brew --prefix zeromq)/include"
+            --disable-bench
           make -j$(sysctl -n hw.logicalcpu)
 
       - name: Determine version
