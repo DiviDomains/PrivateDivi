@@ -15,23 +15,42 @@ permissions:
   contents: write
 
 jobs:
+  # ---------------------------------------------------------------------------
+  # Linux x86_64 (native, using depends)
+  # ---------------------------------------------------------------------------
   build-linux:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Install build tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libtool autotools-dev automake pkg-config \
-            libssl-dev libevent-dev bsdmainutils libboost-all-dev \
-            libminiupnpc-dev libzmq3-dev libdb-dev libdb++-dev
+          sudo apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils curl
+
+      - name: Cache depends
+        uses: actions/cache@v4
+        with:
+          path: |
+            divi/depends/built
+            divi/depends/sources
+          key: depends-x86_64-linux-gnu-${{ hashFiles('divi/depends/packages/*.mk') }}
+          restore-keys: |
+            depends-x86_64-linux-gnu-
+
+      - name: Build depends
+        run: make -C divi/depends HOST=x86_64-linux-gnu -j$(nproc)
 
       - name: Build PrivateDivi
         run: |
           cd divi
           ./autogen.sh
-          ./configure --disable-gui --disable-tests --with-incompatible-bdb --with-unsupported-ssl
+          CONFIG_SITE=$PWD/depends/x86_64-linux-gnu/share/config.site ./configure \
+            --enable-glibc-back-compat \
+            --enable-reduce-exports \
+            --disable-gui \
+            --disable-tests \
+            --disable-bench
           make -j$(nproc)
 
       - name: Determine version
@@ -46,25 +65,233 @@ jobs:
       - name: Package binaries
         run: |
           VERSION=${{ steps.version.outputs.version }}
-          mkdir -p release/privatedivi-${VERSION}-linux
-          cp divi/src/privatedivid release/privatedivi-${VERSION}-linux/
-          cp divi/src/privatedivi-cli release/privatedivi-${VERSION}-linux/
-          cp divi/src/privatedivi-tx release/privatedivi-${VERSION}-linux/
-          tar -czvf privatedivi-${VERSION}-linux.tar.gz -C release privatedivi-${VERSION}-linux
+          DIR="privatedivi-${VERSION}-x86_64-linux-gnu"
+          mkdir -p "${DIR}"
+          cp divi/src/privatedivid "${DIR}/"
+          cp divi/src/privatedivi-cli "${DIR}/"
+          cp divi/src/privatedivi-tx "${DIR}/"
+          strip "${DIR}/privatedivid"
+          strip "${DIR}/privatedivi-cli"
+          strip "${DIR}/privatedivi-tx"
+          tar -czvf "privatedivi-${VERSION}-x86_64-linux-gnu.tar.gz" "${DIR}"
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: privatedivi-${{ steps.version.outputs.version }}-linux.tar.gz
-          draft: false
-          prerelease: false
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload artifacts
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: privatedivi-linux-binaries
-          path: release/
+          name: privatedivi-x86_64-linux-gnu
+          path: privatedivi-${{ steps.version.outputs.version }}-x86_64-linux-gnu.tar.gz
+
+  # ---------------------------------------------------------------------------
+  # Windows x64 (cross-compile with MinGW on Ubuntu)
+  # ---------------------------------------------------------------------------
+  build-windows:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools and MinGW
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils curl \
+            g++-mingw-w64-x86-64
+          sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+
+      - name: Cache depends
+        uses: actions/cache@v4
+        with:
+          path: |
+            divi/depends/built
+            divi/depends/sources
+          key: depends-x86_64-w64-mingw32-${{ hashFiles('divi/depends/packages/*.mk') }}
+          restore-keys: |
+            depends-x86_64-w64-mingw32-
+
+      - name: Build depends
+        run: make -C divi/depends HOST=x86_64-w64-mingw32 -j$(nproc)
+
+      - name: Build PrivateDivi
+        run: |
+          cd divi
+          ./autogen.sh
+          CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure \
+            --enable-reduce-exports \
+            --disable-gui \
+            --disable-tests \
+            --disable-bench
+          make -j$(nproc)
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Package binaries
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          DIR="privatedivi-${VERSION}-win64"
+          mkdir -p "${DIR}"
+          cp divi/src/privatedivid.exe "${DIR}/"
+          cp divi/src/privatedivi-cli.exe "${DIR}/"
+          cp divi/src/privatedivi-tx.exe "${DIR}/"
+          x86_64-w64-mingw32-strip "${DIR}/privatedivid.exe"
+          x86_64-w64-mingw32-strip "${DIR}/privatedivi-cli.exe"
+          x86_64-w64-mingw32-strip "${DIR}/privatedivi-tx.exe"
+          zip -r "privatedivi-${VERSION}-win64.zip" "${DIR}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: privatedivi-win64
+          path: privatedivi-${{ steps.version.outputs.version }}-win64.zip
+
+  # ---------------------------------------------------------------------------
+  # macOS x64 (native build with Homebrew, no depends)
+  # ---------------------------------------------------------------------------
+  build-macos:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies via Homebrew
+        run: |
+          brew install automake libtool pkg-config openssl@3 boost libevent miniupnpc zeromq berkeley-db@4
+
+      - name: Build PrivateDivi
+        run: |
+          cd divi
+          ./autogen.sh
+          ./configure \
+            --disable-gui \
+            --disable-tests \
+            --disable-bench \
+            --with-incompatible-bdb \
+            --with-unsupported-ssl \
+            LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix berkeley-db@4)/lib -L$(brew --prefix boost)/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix miniupnpc)/lib -L$(brew --prefix zeromq)/lib" \
+            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix berkeley-db@4)/include -I$(brew --prefix boost)/include -I$(brew --prefix libevent)/include -I$(brew --prefix miniupnpc)/include -I$(brew --prefix zeromq)/include"
+          make -j$(sysctl -n hw.logicalcpu)
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Package binaries
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          DIR="privatedivi-${VERSION}-osx64"
+          mkdir -p "${DIR}"
+          cp divi/src/privatedivid "${DIR}/"
+          cp divi/src/privatedivi-cli "${DIR}/"
+          cp divi/src/privatedivi-tx "${DIR}/"
+          strip "${DIR}/privatedivid"
+          strip "${DIR}/privatedivi-cli"
+          strip "${DIR}/privatedivi-tx"
+          tar -czvf "privatedivi-${VERSION}-osx64.tar.gz" "${DIR}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: privatedivi-osx64
+          path: privatedivi-${{ steps.version.outputs.version }}-osx64.tar.gz
+
+  # ---------------------------------------------------------------------------
+  # ARM (Raspberry Pi 2+, cross-compile on Ubuntu)
+  # ---------------------------------------------------------------------------
+  build-arm:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools and ARM cross-compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils curl \
+            g++-arm-linux-gnueabihf
+
+      - name: Cache depends
+        uses: actions/cache@v4
+        with:
+          path: |
+            divi/depends/built
+            divi/depends/sources
+          key: depends-arm-linux-gnueabihf-${{ hashFiles('divi/depends/packages/*.mk') }}
+          restore-keys: |
+            depends-arm-linux-gnueabihf-
+
+      - name: Build depends
+        run: make -C divi/depends HOST=arm-linux-gnueabihf -j$(nproc)
+
+      - name: Build PrivateDivi
+        run: |
+          cd divi
+          ./autogen.sh
+          CONFIG_SITE=$PWD/depends/arm-linux-gnueabihf/share/config.site ./configure \
+            --enable-glibc-back-compat \
+            --enable-reduce-exports \
+            --disable-gui \
+            --disable-tests \
+            --disable-bench
+          make -j$(nproc)
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Package binaries
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          DIR="privatedivi-${VERSION}-RPi2"
+          mkdir -p "${DIR}"
+          cp divi/src/privatedivid "${DIR}/"
+          cp divi/src/privatedivi-cli "${DIR}/"
+          cp divi/src/privatedivi-tx "${DIR}/"
+          arm-linux-gnueabihf-strip "${DIR}/privatedivid"
+          arm-linux-gnueabihf-strip "${DIR}/privatedivi-cli"
+          arm-linux-gnueabihf-strip "${DIR}/privatedivi-tx"
+          tar -czvf "privatedivi-${VERSION}-RPi2.tar.gz" "${DIR}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: privatedivi-RPi2
+          path: privatedivi-${{ steps.version.outputs.version }}-RPi2.tar.gz
+
+  # ---------------------------------------------------------------------------
+  # Create GitHub Release (runs only on tag push, after all builds succeed)
+  # ---------------------------------------------------------------------------
+  create-release:
+    runs-on: ubuntu-latest
+    needs: [build-linux, build-windows, build-macos, build-arm]
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/privatedivi-x86_64-linux-gnu/*.tar.gz
+            artifacts/privatedivi-win64/*.zip
+            artifacts/privatedivi-osx64/*.tar.gz
+            artifacts/privatedivi-RPi2/*.tar.gz
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
