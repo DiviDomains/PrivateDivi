@@ -149,18 +149,29 @@ jobs:
           path: privatedivi-${{ steps.version.outputs.version }}-win64.zip
 
   # ---------------------------------------------------------------------------
-  # macOS ARM64 (native build with Homebrew on Apple Silicon)
+  # macOS ARM64 (native build, all deps static from source)
   # ---------------------------------------------------------------------------
   build-macos:
     runs-on: macos-15
+    env:
+      DEPS_PREFIX: /usr/local
+      NPROC_CMD: "sysctl -n hw.logicalcpu"
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies via Homebrew
-        run: |
-          brew install automake libtool pkg-config openssl@3 libevent zeromq
+      - name: Install build tools
+        run: brew install automake libtool pkg-config
 
-      - name: Install BDB 4.8 from source
+      - name: Build OpenSSL 1.1.1w (static)
+        run: |
+          curl -fL https://www.openssl.org/source/openssl-1.1.1w.tar.gz -o openssl.tar.gz
+          tar xzf openssl.tar.gz
+          cd openssl-1.1.1w
+          ./Configure darwin64-arm64-cc no-shared --prefix=$DEPS_PREFIX
+          make -j$($NPROC_CMD)
+          sudo make install_sw
+
+      - name: Build BDB 4.8.30 (static)
         run: |
           curl -fL http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz -o bdb.tar.gz
           tar xzf bdb.tar.gz
@@ -168,20 +179,39 @@ jobs:
           sed -i '' 's/__atomic_compare_exchange/__atomic_compare_exchange_db/' dbinc/atomic.h
           sed -i '' 's/atomic_init/atomic_init_db/' dbinc/atomic.h mp/mp_region.c mp/mp_mvcc.c mp/mp_fget.c mutex/mut_method.c mutex/mut_tas.c
           cd build_unix
-          ../dist/configure --prefix=/usr/local --disable-shared --enable-cxx --with-pic \
+          ../dist/configure --prefix=$DEPS_PREFIX --disable-shared --enable-cxx --with-pic \
             CFLAGS="-Wno-implicit-function-declaration" CXXFLAGS="-std=c++11"
-          make -j$(sysctl -n hw.logicalcpu)
+          make -j$($NPROC_CMD)
           sudo make install
 
-      - name: Install Boost 1.76 from source
+      - name: Build Boost 1.76 (static)
         run: |
           curl -fL https://archives.boost.io/release/1.76.0/source/boost_1_76_0.tar.gz -o boost.tar.gz
           tar xzf boost.tar.gz
           cd boost_1_76_0
-          ./bootstrap.sh --prefix=/usr/local
+          ./bootstrap.sh --prefix=$DEPS_PREFIX
           sudo ./b2 --with-system --with-filesystem --with-program_options --with-thread --with-chrono \
             cxxflags="-Wno-deprecated-declarations -Wno-enum-constexpr-conversion" \
-            link=shared threading=multi -j$(sysctl -n hw.logicalcpu) install
+            link=static threading=multi -j$($NPROC_CMD) install
+
+      - name: Build libevent 2.1.12 (static)
+        run: |
+          curl -fL https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz -o libevent.tar.gz
+          tar xzf libevent.tar.gz
+          cd libevent-2.1.12-stable
+          ./configure --prefix=$DEPS_PREFIX --disable-shared --enable-static --with-pic \
+            CPPFLAGS="-I$DEPS_PREFIX/include" LDFLAGS="-L$DEPS_PREFIX/lib"
+          make -j$($NPROC_CMD)
+          sudo make install
+
+      - name: Build ZeroMQ 4.3.5 (static)
+        run: |
+          curl -fL https://github.com/zeromq/libzmq/releases/download/v4.3.5/zeromq-4.3.5.tar.gz -o zeromq.tar.gz
+          tar xzf zeromq.tar.gz
+          cd zeromq-4.3.5
+          ./configure --prefix=$DEPS_PREFIX --disable-shared --enable-static --with-pic --without-docs
+          make -j$($NPROC_CMD)
+          sudo make install
 
       - name: Build PrivateDivi
         run: |
@@ -193,12 +223,12 @@ jobs:
             --disable-bench \
             --with-unsupported-ssl \
             --without-miniupnpc \
-            --with-boost=/usr/local \
-            --with-boost-libdir=/usr/local/lib \
-            LDFLAGS="-L$(brew --prefix openssl@3)/lib -L/usr/local/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix zeromq)/lib" \
-            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I/usr/local/include -I$(brew --prefix libevent)/include -I$(brew --prefix zeromq)/include" \
+            --with-boost=$DEPS_PREFIX \
+            --with-boost-libdir=$DEPS_PREFIX/lib \
+            LDFLAGS="-L$DEPS_PREFIX/lib" \
+            CPPFLAGS="-I$DEPS_PREFIX/include" \
             CXXFLAGS="-Wno-deprecated-declarations -Wno-enum-constexpr-conversion"
-          make -j$(sysctl -n hw.logicalcpu)
+          make -j$($NPROC_CMD)
 
       - name: Determine version
         id: version
@@ -207,6 +237,22 @@ jobs:
             echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
           else
             echo "version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Verify static linking
+        run: |
+          echo "=== privatedivid dependencies ==="
+          otool -L divi/src/privatedivid
+          echo ""
+          echo "=== privatedivi-cli dependencies ==="
+          otool -L divi/src/privatedivi-cli
+          echo ""
+          echo "=== Checking for non-system dynamic libs ==="
+          if otool -L divi/src/privatedivid | grep -v '/usr/lib/' | grep -v '/System/' | grep -v 'divi/src/' | grep -q '.dylib'; then
+            echo "WARNING: Found non-system dynamic libraries!"
+            otool -L divi/src/privatedivid | grep -v '/usr/lib/' | grep -v '/System/' | grep -v 'divi/src/'
+          else
+            echo "OK: All dependencies are system libraries or statically linked"
           fi
 
       - name: Package binaries
