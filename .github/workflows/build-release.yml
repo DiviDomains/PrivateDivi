@@ -158,7 +158,16 @@ jobs:
 
       - name: Install dependencies via Homebrew
         run: |
-          brew install automake libtool pkg-config openssl@3 boost libevent miniupnpc zeromq berkeley-db
+          brew install automake libtool pkg-config openssl@3 libevent miniupnpc zeromq berkeley-db
+
+      - name: Install Boost 1.80 from source
+        run: |
+          curl -L https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2 -o boost.tar.bz2
+          tar xjf boost.tar.bz2
+          cd boost_1_80_0
+          ./bootstrap.sh --prefix=/usr/local
+          sudo ./b2 --with-system --with-filesystem --with-program_options --with-thread --with-chrono \
+            link=shared threading=multi -j$(sysctl -n hw.logicalcpu) install
 
       - name: Build PrivateDivi
         run: |
@@ -170,9 +179,10 @@ jobs:
             --disable-bench \
             --with-incompatible-bdb \
             --with-unsupported-ssl \
-            --with-boost-libdir="$(brew --prefix boost)/lib" \
-            LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix berkeley-db)/lib -L$(brew --prefix boost)/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix miniupnpc)/lib -L$(brew --prefix zeromq)/lib" \
-            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix berkeley-db)/include -I$(brew --prefix boost)/include -I$(brew --prefix libevent)/include -I$(brew --prefix miniupnpc)/include -I$(brew --prefix zeromq)/include"
+            --with-boost=/usr/local \
+            --with-boost-libdir=/usr/local/lib \
+            LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix berkeley-db)/lib -L/usr/local/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix miniupnpc)/lib -L$(brew --prefix zeromq)/lib" \
+            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix berkeley-db)/include -I/usr/local/include -I$(brew --prefix libevent)/include -I$(brew --prefix miniupnpc)/include -I$(brew --prefix zeromq)/include"
           make -j$(sysctl -n hw.logicalcpu)
 
       - name: Determine version
