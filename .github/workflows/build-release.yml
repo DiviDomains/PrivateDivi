@@ -160,11 +160,11 @@ jobs:
         run: |
           brew install automake libtool pkg-config openssl@3 libevent miniupnpc zeromq berkeley-db
 
-      - name: Install Boost 1.80 from source
+      - name: Install Boost 1.84 from source
         run: |
-          curl -fL https://archives.boost.io/release/1.80.0/source/boost_1_80_0.tar.gz -o boost.tar.gz
+          curl -fL https://archives.boost.io/release/1.84.0/source/boost_1_84_0.tar.gz -o boost.tar.gz
           tar xzf boost.tar.gz
-          cd boost_1_80_0
+          cd boost_1_84_0
           ./bootstrap.sh --prefix=/usr/local
           sudo ./b2 --with-system --with-filesystem --with-program_options --with-thread --with-chrono \
             link=shared threading=multi -j$(sysctl -n hw.logicalcpu) install
