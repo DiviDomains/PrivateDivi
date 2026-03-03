@@ -149,10 +149,10 @@ jobs:
           path: privatedivi-${{ steps.version.outputs.version }}-win64.zip
 
   # ---------------------------------------------------------------------------
-  # macOS x64 (native build with Homebrew, no depends)
+  # macOS ARM64 (native build with Homebrew on Apple Silicon)
   # ---------------------------------------------------------------------------
   build-macos:
-    runs-on: macos-13
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 
@@ -186,7 +186,7 @@ jobs:
       - name: Package binaries
         run: |
           VERSION=${{ steps.version.outputs.version }}
-          DIR="privatedivi-${VERSION}-osx64"
+          DIR="privatedivi-${VERSION}-osx-arm64"
           mkdir -p "${DIR}"
           cp divi/src/privatedivid "${DIR}/"
           cp divi/src/privatedivi-cli "${DIR}/"
@@ -194,13 +194,13 @@ jobs:
           strip "${DIR}/privatedivid"
           strip "${DIR}/privatedivi-cli"
           strip "${DIR}/privatedivi-tx"
-          tar -czvf "privatedivi-${VERSION}-osx64.tar.gz" "${DIR}"
+          tar -czvf "privatedivi-${VERSION}-osx-arm64.tar.gz" "${DIR}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: privatedivi-osx64
-          path: privatedivi-${{ steps.version.outputs.version }}-osx64.tar.gz
+          name: privatedivi-osx-arm64
+          path: privatedivi-${{ steps.version.outputs.version }}-osx-arm64.tar.gz
 
   # ---------------------------------------------------------------------------
   # ARM (Raspberry Pi 2+, cross-compile on Ubuntu)
@@ -288,7 +288,7 @@ jobs:
           files: |
             artifacts/privatedivi-x86_64-linux-gnu/*.tar.gz
             artifacts/privatedivi-win64/*.zip
-            artifacts/privatedivi-osx64/*.tar.gz
+            artifacts/privatedivi-osx-arm64/*.tar.gz
             artifacts/privatedivi-RPi2/*.tar.gz
           generate_release_notes: true
           draft: false
