@@ -159,6 +159,7 @@ jobs:
       - name: Install build tools
         run: |
           brew install automake libtool pkg-config
+          pip3 install setuptools --break-system-packages
 
       - name: Cache depends
         uses: actions/cache@v4
