@@ -865,7 +865,7 @@ bool CheckWalletFileExists(std::string strDataDir)
 {
     std::string strWalletFile = settings.GetArg("-wallet", "wallet.dat");
     // Wallet file must be a plain filename without a directory
-    const std::string expectedWalletFilename = boost::filesystem::path(strWalletFile).stem().string() + boost::filesystem::path(strWalletFile).extension().string();
+    const std::string expectedWalletFilename = boost::filesystem::basename(strWalletFile) + boost::filesystem::extension(strWalletFile);
     if (strWalletFile != expectedWalletFilename)
     {
         return InitError(strprintf(translate("Unexpected wallet filename %s"), strWalletFile));
