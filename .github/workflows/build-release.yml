@@ -158,7 +158,7 @@ jobs:
 
       - name: Install dependencies via Homebrew
         run: |
-          brew install automake libtool pkg-config openssl@3 boost libevent miniupnpc zeromq berkeley-db@4
+          brew install automake libtool pkg-config openssl@3 boost libevent miniupnpc zeromq berkeley-db
 
       - name: Build PrivateDivi
         run: |
@@ -170,8 +170,8 @@ jobs:
             --disable-bench \
             --with-incompatible-bdb \
             --with-unsupported-ssl \
-            LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix berkeley-db@4)/lib -L$(brew --prefix boost)/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix miniupnpc)/lib -L$(brew --prefix zeromq)/lib" \
-            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix berkeley-db@4)/include -I$(brew --prefix boost)/include -I$(brew --prefix libevent)/include -I$(brew --prefix miniupnpc)/include -I$(brew --prefix zeromq)/include"
+            LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix berkeley-db)/lib -L$(brew --prefix boost)/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix miniupnpc)/lib -L$(brew --prefix zeromq)/lib" \
+            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix berkeley-db)/include -I$(brew --prefix boost)/include -I$(brew --prefix libevent)/include -I$(brew --prefix miniupnpc)/include -I$(brew --prefix zeromq)/include"
           make -j$(sysctl -n hw.logicalcpu)
 
       - name: Determine version
