@@ -158,7 +158,20 @@ jobs:
 
       - name: Install dependencies via Homebrew
         run: |
-          brew install automake libtool pkg-config openssl@3 libevent zeromq berkeley-db
+          brew install automake libtool pkg-config openssl@3 libevent zeromq
+
+      - name: Install BDB 4.8 from source
+        run: |
+          curl -fL http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz -o bdb.tar.gz
+          tar xzf bdb.tar.gz
+          cd db-4.8.30.NC
+          sed -i '' 's/__atomic_compare_exchange/__atomic_compare_exchange_db/' dbinc/atomic.h
+          sed -i '' 's/atomic_init/atomic_init_db/' dbinc/atomic.h mp/mp_region.c mp/mp_mvcc.c mp/mp_fget.c mutex/mut_method.c mutex/mut_tas.c
+          cd build_unix
+          ../dist/configure --prefix=/usr/local --disable-shared --enable-cxx --with-pic \
+            CFLAGS="-Wno-implicit-function-declaration" CXXFLAGS="-std=c++11"
+          make -j$(sysctl -n hw.logicalcpu)
+          sudo make install
 
       - name: Install Boost 1.76 from source
         run: |
@@ -178,13 +191,12 @@ jobs:
             --disable-gui \
             --disable-tests \
             --disable-bench \
-            --with-incompatible-bdb \
             --with-unsupported-ssl \
             --without-miniupnpc \
             --with-boost=/usr/local \
             --with-boost-libdir=/usr/local/lib \
-            LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix berkeley-db)/lib -L/usr/local/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix zeromq)/lib" \
-            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix berkeley-db)/include -I/usr/local/include -I$(brew --prefix libevent)/include -I$(brew --prefix zeromq)/include" \
+            LDFLAGS="-L$(brew --prefix openssl@3)/lib -L/usr/local/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix zeromq)/lib" \
+            CPPFLAGS="-I$(brew --prefix openssl@3)/include -I/usr/local/include -I$(brew --prefix libevent)/include -I$(brew --prefix zeromq)/include" \
             CXXFLAGS="-Wno-deprecated-declarations -Wno-enum-constexpr-conversion"
           make -j$(sysctl -n hw.logicalcpu)
 
