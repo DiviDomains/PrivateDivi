@@ -162,8 +162,8 @@ jobs:
 
       - name: Install Boost 1.80 from source
         run: |
-          curl -L https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2 -o boost.tar.bz2
-          tar xjf boost.tar.bz2
+          curl -fL https://archives.boost.io/release/1.80.0/source/boost_1_80_0.tar.gz -o boost.tar.gz
+          tar xzf boost.tar.gz
           cd boost_1_80_0
           ./bootstrap.sh --prefix=/usr/local
           sudo ./b2 --with-system --with-filesystem --with-program_options --with-thread --with-chrono \
