@@ -106,21 +106,21 @@ namespace
 // + Contains no strange transactions
 const MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
-        (0, uint256("0x00000afaf0ab7827e3b8b68c7e0894a9e31c184107b51df0fd85fabe9050f695"));
+        (0, uint256("0x00000cde87387f76349797373bd8e30809334433210820b8bb17bdde6e8b1e80"));
 
 const CCheckpointData data = {
     &mapCheckpoints,
-    1771041600, // * UNIX timestamp of last checkpoint block (genesis) - February 2026
+    1771075434, // * UNIX timestamp of last checkpoint block (genesis) - February 2026
     0,    // * total number of transactions between genesis and last checkpoint
     //   (the tx=... number in the SetBestChain debug.log lines)
     2000        // * estimated number of transactions per day after checkpoint
 };
 
 const MapCheckpoints mapCheckpointsTestnet =
-        boost::assign::map_list_of(0, uint256("0x00000afaf0ab7827e3b8b68c7e0894a9e31c184107b51df0fd85fabe9050f695"));
+        boost::assign::map_list_of(0, uint256("0x000003071a9dac6c02eb354b7e44add111c5427d483301cb76ed521d621a3b1d"));
 const CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
-    1771041600,  // February 2026
+    1771075435,  // February 2026
     0,
     250};
 
@@ -215,16 +215,16 @@ public:
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nTime = 1771041600;  // February 2026
+        genesis.nTime = 1771075434;  // February 2026
         genesis.nBits = 0x1e0ffff0;
-        genesis.nNonce = 2406186;
+        genesis.nNonce = 12890;
         genesis.payee = txNew.vout[0].scriptPubKey;
 
         nExtCoinType = 801;
 
         hashGenesisBlock = genesis.GetHash();
 
-        assert(hashGenesisBlock == uint256("0x00000afaf0ab7827e3b8b68c7e0894a9e31c184107b51df0fd85fabe9050f695"));
+        assert(hashGenesisBlock == uint256("0x00000cde87387f76349797373bd8e30809334433210820b8bb17bdde6e8b1e80"));
         assert(genesis.hashMerkleRoot == uint256("0x4123e9ba36523af0b90b02b26663b76a11e9bf680e6c775d8dd6d7c66f95c4bd"));
 
         vSeeds.push_back(CDNSSeedData("seeds.divi.domains", "seeds.divi.domains"));
@@ -410,14 +410,14 @@ public:
         nTreasuryPaymentsCycle = 201;
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1771041600;  // February 2026 - same as mainnet
-        genesis.nNonce = 2406186;
+        genesis.nTime = 1771075435;  // February 2026 (1 second after mainnet)
+        genesis.nNonce = 3082737;
 
         nExtCoinType = 1;
 
         hashGenesisBlock = genesis.GetHash();
 
-        assert(hashGenesisBlock == uint256("0x00000afaf0ab7827e3b8b68c7e0894a9e31c184107b51df0fd85fabe9050f695"));
+        assert(hashGenesisBlock == uint256("0x000003071a9dac6c02eb354b7e44add111c5427d483301cb76ed521d621a3b1d"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
