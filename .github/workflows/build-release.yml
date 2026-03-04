@@ -215,6 +215,19 @@ jobs:
           make -j$($NPROC_CMD)
           sudo make install
 
+      - name: Build miniupnpc 2.0.20170509 (static)
+        run: |
+          curl -fL http://miniupnp.free.fr/files/miniupnpc-2.0.20170509.tar.gz -o miniupnpc.tar.gz
+          tar xzf miniupnpc.tar.gz
+          cd miniupnpc-2.0.20170509
+          mkdir -p dll
+          sed -e 's|MINIUPNPC_VERSION_STRING "version"|MINIUPNPC_VERSION_STRING "2.0.20170509"|' \
+              -e 's|OS/version|Darwin/arm64|' miniupnpcstrings.h.in > miniupnpcstrings.h
+          make libminiupnpc.a CC=cc OS=Darwin
+          sudo mkdir -p $DEPS_PREFIX/include/miniupnpc $DEPS_PREFIX/lib
+          sudo install *.h $DEPS_PREFIX/include/miniupnpc/
+          sudo install libminiupnpc.a $DEPS_PREFIX/lib/
+
       - name: Build PrivateDivi
         run: |
           cd divi
@@ -224,7 +237,6 @@ jobs:
             --disable-tests \
             --disable-bench \
             --with-unsupported-ssl \
-            --without-miniupnpc \
             --with-boost=$DEPS_PREFIX \
             --with-boost-libdir=$DEPS_PREFIX/lib \
             LDFLAGS="-L$DEPS_PREFIX/lib" \
